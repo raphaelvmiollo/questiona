@@ -4,6 +4,7 @@ import MetaTags from 'react-meta-tags';
 
 import { SearchContext } from '../contexts/SearchContext';
 
+import AnimationSearch from '../components/AnimationSearch/AnimationSearch';
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
 import Footer from '../components/Footer';
@@ -17,12 +18,16 @@ function Search() {
   const { searchData } = useContext(SearchContext);
 
   useEffect(() => {
+    setQuestoes(null);
     getQuestions(searchData).then((response) => {
       setTotalResults(response.data.total);
       setQuestoes(response.data.data);
     });
   }, [searchData]);
 
+  const handleScroll = (e) => {
+    console.log(e);
+  };
   return (
     <>
       <MetaTags>
@@ -39,7 +44,12 @@ function Search() {
       <Header />
 
       <SearchHeader />
-      <QuestionList questoes={questoes} totalResults={totalResults} />
+      <div onScroll={handleScroll}>
+        {questoes !== null && (
+          <QuestionList questoes={questoes} totalResults={totalResults} />
+        )}
+      </div>
+      {questoes === null && <AnimationSearch />}
       <Footer />
     </>
   );

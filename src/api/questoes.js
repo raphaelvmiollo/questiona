@@ -1,8 +1,9 @@
 import api from './api';
 
 export async function getQuestions(searchData) {
+  console.log(searchData);
   let questions = await api.get(
-    `questoes?area_id=${searchData.curso.value}&ano=${searchData.ano.value}&limit=40`
+    `questoes?area_id=${searchData.curso.value}&ano=${searchData.ano.value}&limit=40&q=${searchData.palavrasChaves}`
   );
   return questions;
 }
