@@ -1,13 +1,21 @@
 import { map } from 'lodash';
 import { useHistory } from 'react-router-dom';
 
+import './index.css';
+
 function QuestionList(props) {
   let history = useHistory();
-  const { questoes } = props;
+  const { questoes, totalResults } = props;
+  console.log(questoes);
 
   const goToQuestion = (id) => {
     history.push(`/question/${id}`);
   };
+
+  const handleScroll = (e) => {
+    console.log(e);
+  };
+
   return (
     <div className="container">
       <section className="resultadoBusca" style={{ marginTop: '80px' }}>
@@ -15,15 +23,8 @@ function QuestionList(props) {
           <div className="col-6 offset-1">
             <div className="row">
               <div className="col">
-                <h5
-                  style={{
-                    fontFamily: 'Questrial, sans-serif',
-                    fontSize: '24px',
-                    color: '#005c8b',
-                    paddingLeft: '-39px',
-                  }}
-                >
-                  Foram encontrados 06 resultados para sua busca:
+                <h5 className="result-count-title">
+                  Foram encontrados {totalResults} resultados para sua busca:
                 </h5>
               </div>
             </div>
@@ -41,12 +42,12 @@ function QuestionList(props) {
             <div className="row no-gutters row-cols-2">
               {map(questoes, (questao) => (
                 <div
+                  onScroll={handleScroll}
                   onClick={() => {
                     goToQuestion(questao.id_questao);
                   }}
-                  className="col-6 col-xl-6 offset-0 align-self-sm-stretch"
+                  className="col-6 col-xl-6 offset-0 align-self-sm-stretch "
                   style={{
-                    background: 'rgba(54,45,45,0)',
                     borderRadius: '8px',
                     marginTop: '0px',
                     marginRight: '0px',
@@ -58,6 +59,7 @@ function QuestionList(props) {
                   }}
                 >
                   <div
+                    className="question-item"
                     style={{
                       background: '#ffffff',
                       borderRadius: '10px',
@@ -71,7 +73,8 @@ function QuestionList(props) {
                         fontWeight: 'bold',
                       }}
                     >
-                      Questão {questao.num_questao} - Agronomia - 2018
+                      Questão {questao.num_questao} -{' '}
+                      {questao.prova.area_avaliacao.nome} - 2018
                     </h5>
                     <span style={{ fontFamily: 'Inter, sans-serif' }}>
                       {questao.parte_prova === 'G' ? 'Geral' : 'Específica'}

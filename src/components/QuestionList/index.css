@@ -1,0 +1,13 @@
+.result-count-title{
+    font-family: 'Questrial';
+    font-size: 24px;
+    color: #005c8b;
+    padding-left: -40;
+}
+
+
+.question-item:hover{
+    background: #005c8b !important;
+    color: #fff
+    
+}

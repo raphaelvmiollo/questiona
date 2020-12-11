@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getQuestion } from '../api/questoes';
+import { useHistory } from 'react-router-dom';
 import MetaTags from 'react-meta-tags';
 import { useParams } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
+import { SearchContext } from '../contexts/SearchContext';
 
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
@@ -10,16 +12,22 @@ import Footer from '../components/Footer';
 import QuestionInfo from '../components/QuestionInfo/QuestionInfo';
 
 function Question(params) {
+  const { searchData, setSearchData } = useContext(SearchContext);
   // const [initialSeach, setInitialSearch] = useState(null);
   const [questao, setQuestao] = useState([]);
   const { id } = useParams();
+  let history = useHistory();
 
   useEffect(() => {
     getQuestion(id).then((response) => {
-      console.log(response);
       setQuestao(response);
     });
   }, [id]);
+
+  const searchInQuestion = (searchData) => {
+    setSearchData(searchData);
+    history.push('/search');
+  };
 
   return (
     <>
@@ -36,7 +44,7 @@ function Question(params) {
 
       <Header />
 
-      <SearchHeader />
+      <SearchHeader diferentAction={searchInQuestion} />
       {!isEmpty(questao) && <QuestionInfo questaoInfo={questao} />}
       <Footer />
     </>

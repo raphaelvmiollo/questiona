@@ -1,9 +1,14 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 function QustionInfo(props) {
   const { questaoInfo } = props;
   const url_image = 'http://enade.gabrieldoyle.com/' + questaoInfo.imagem;
+  const history = useHistory();
 
+  const handleBack = () => {
+    history.push('/search');
+  };
   return (
     <div className="container">
       {' '}
@@ -12,7 +17,7 @@ function QustionInfo(props) {
           <div className="col-9 offset-1">
             <div className="row">
               <div className="col-1">
-                <a href="#teste">
+                <a href="#goBack" onClick={handleBack}>
                   <i
                     className="fa fa-long-arrow-left d-flex d-xl-flex flex-row-reverse justify-content-xl-center align-items-xl-start"
                     style={{

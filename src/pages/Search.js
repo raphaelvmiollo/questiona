@@ -1,23 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getQuestions } from '../api/questoes';
 import MetaTags from 'react-meta-tags';
+
+import { SearchContext } from '../contexts/SearchContext';
 
 import Header from '../components/Header';
 import SearchHeader from '../components/SearchHeader/SearchHeader';
 import Footer from '../components/Footer';
-import QuestionList from '../components/QuestionList';
+import QuestionList from '../components/QuestionList/QuestionList';
 // import SearchProvider from '../contexts/SearchContext';
 
 function Search() {
   // const [initialSeach, setInitialSearch] = useState(null);
   const [questoes, setQuestoes] = useState([]);
+  const [totalResults, setTotalResults] = useState(null);
+  const { searchData } = useContext(SearchContext);
 
   useEffect(() => {
-    getQuestions().then((response) => {
-      setQuestoes(response.data);
-      console.log(response.data);
+    getQuestions(searchData).then((response) => {
+      setTotalResults(response.data.total);
+      setQuestoes(response.data.data);
     });
-  }, []);
+  }, [searchData]);
 
   return (
     <>
@@ -35,8 +39,7 @@ function Search() {
       <Header />
 
       <SearchHeader />
-      <QuestionList questoes={questoes} />
-
+      <QuestionList questoes={questoes} totalResults={totalResults} />
       <Footer />
     </>
   );

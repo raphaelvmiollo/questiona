@@ -8,6 +8,8 @@ import { getCourseData, getYearsByCourse } from '../../api/searchBarData';
 import './index.css';
 
 function HeaSearchHeader(props) {
+  const { diferentAction } = props;
+  console.log(diferentAction);
   const { searchData, setSearchData } = useContext(SearchContext);
 
   const [cursos, setCursos] = useState([]);
@@ -27,7 +29,7 @@ function HeaSearchHeader(props) {
   // Pega os valores da busca do contexto
   const resolveInitialValues = () => {
     if (searchData.curso !== null) {
-      setCursoSelected(searchData.curso);
+      setCursoSelected(searchData.curso.label);
     }
     if (searchData.ano !== null) {
       setAnoSelected(searchData.ano);
@@ -70,9 +72,9 @@ function HeaSearchHeader(props) {
               <div className="input-col col-4 ">
                 <span className="input_title"> Curso </span>
                 <Select
+                  value={cursoSelected}
                   className="select_input"
                   placeholder={'Selecione um curso'}
-                  value={cursoSelected}
                   options={cursos}
                   onChange={onChangeCourse}
                 />
