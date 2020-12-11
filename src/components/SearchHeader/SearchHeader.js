@@ -8,12 +8,11 @@ import { getCourseData, getYearsByCourse } from '../../api/searchBarData';
 import './index.css';
 
 function HeaSearchHeader(props) {
-  const { diferentAction } = props;
-  console.log(diferentAction);
   const { searchData, setSearchData } = useContext(SearchContext);
 
   const [cursos, setCursos] = useState([]);
   const [anos, setAnos] = useState([]);
+  const [palavrasChaves, setPalavrasChaves] = useState('');
   const [cursoSelected, setCursoSelected] = useState(null);
   const [anoSelected, setAnoSelected] = useState(null);
   const [anoEnable, setAnoEnable] = useState(false);
@@ -56,8 +55,14 @@ function HeaSearchHeader(props) {
     const query = {
       curso: cursoSelected,
       ano: anoSelected,
+      palavrasChaves: palavrasChaves,
     };
     setSearchData(query);
+  };
+
+  const onChangePalavrasChaves = (e) => {
+    setPalavrasChaves(e.target.value);
+    console.log(palavrasChaves);
   };
 
   return (
@@ -93,7 +98,9 @@ function HeaSearchHeader(props) {
               <div className="col-4 input-col">
                 <span className="input_title">Palavras-chave</span>
                 <input
+                  value={palavrasChaves}
                   type="text"
+                  onChange={onChangePalavrasChaves}
                   style={{ width: '100%' }}
                   className="form-control"
                   placeholder="Insira palavras-chave"
